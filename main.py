@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os.path
 
 from matplotlib import pylab
+from networkx.algorithms import approximation
 
 DATA_FILE = 'dataset.txt'
 
@@ -110,7 +111,17 @@ def main():
 	print("Determining largest clique size...")
 	largest = largestClique(G, allNodes)
 	print('The largest clique size is',len(largest[0]),'with',len(largest),'cliques.')
-
+	H = G.to_undirected(reciprocal=True)
+	maxClique = nx.find_cliques(H)
+	maxLength = 0
+	count = 0
+	for clique in maxClique:
+		if len(clique) > maxLength:
+			maxLength = len(clique)
+			count = 0
+		if len(clique) == maxLength:
+			count = count + 1
+	print('Using find_clique the largest size is', maxLength, 'with', count, 'total cliques.')
 
 	#print(G.number_of_nodes(), G.number_of_edges())
 
