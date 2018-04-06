@@ -87,6 +87,43 @@ def largestClique(G, cliques):
 	return largestClique(G, newCliques)
 
 
+# Given the graph (G) and a list of 3-cycles (three_cycles)
+# Returns a list of butterflies in the graph if any
+def findButterflies(G, three_cycles):
+
+	butterflies = []
+
+	
+	for cycle1 in three_cycles:
+		for cycle2 in three_cycles:
+			if len(cycle1.intersection(cycle2)) == 1: # Only 1 common element between the 2 sets
+				
+				# If these cycles have already verified as a butterfly, skip (avoid redundancy)
+				if cycle1.intersection(cycle2) in butterflies:
+					continue
+
+				# Count the edges of each node to nodes in the other cycle
+				numConnections = []
+				for cycle1_node in cycle1:
+					# Check to see if any (and how many) predecessors/successors are nodes in cycle2
+					predecessors = set(G.predecessors(cycle1_node))
+					successors = set(G.successors(cycle1_node))
+					c2 = set(cycle2)
+
+					deg_in = len(predecessors.intersection(c2)) # Using set intersection, find how many edges are there from nodes in cycle 2 to cycle1_node
+					deg_out = len(successors.intersection(c2)) # Using set intersection, find how many edges from cycle1_node to nodes in cycle 2
+					numConnections.append(deg_in + deg_out) # Total edges connecting cycle1_node and cycle2
+
+				if sorted(numConnections) == [2,2,4]:
+					newBF =  set(cycle1).union(cycle2)
+					if newBF not in butterflies: # Don't create duplicates
+						butterflies.append(newBF)
+
+					#butterflies.append(newBF)
+
+			
+	return butterflies
+
 
 def main():
 
@@ -97,6 +134,8 @@ def main():
 
 	print("Creating graph...")
 	G = createGraphFromFile(DATA_FILE)
+
+	print("Graph created with", G.number_of_nodes(), "nodes and", G.number_of_edges(), "edges.")
 
 	
 
@@ -111,19 +150,26 @@ def main():
 	print("Determining largest clique size...")
 	largest = largestClique(G, allNodes)
 	print('The largest clique size is',len(largest[0]),'with',len(largest),'cliques.')
-	H = G.to_undirected(reciprocal=True)
-	maxClique = nx.find_cliques(H)
-	maxLength = 0
-	count = 0
-	for clique in maxClique:
-		if len(clique) > maxLength:
-			maxLength = len(clique)
-			count = 0
-		if len(clique) == maxLength:
-			count = count + 1
-	print('Using find_clique the largest size is', maxLength, 'with', count, 'total cliques.')
+	
 
-	#print(G.number_of_nodes(), G.number_of_edges())
+	# H = G.to_undirected(reciprocal=True)
+	# maxClique = nx.find_cliques(H)
+	# maxLength = 0
+	# count = 0
+	# for clique in maxClique:
+	# 	if len(clique) > maxLength:
+	# 		maxLength = len(clique)
+	# 		count = 0
+	# 	if len(clique) == maxLength:
+	# 		count = count + 1
+	# print('Using find_clique the largest size is', maxLength, 'with', count, 'total cliques.')
+
+	# Find the butterflies in the graph
+	butterflies = findButterflies(G, largest)
+	print("There are", len(butterflies), "butterflies in the graph.")
+	#print("The butterflies are:")
+	#for butterfly in butterflies:
+	#	print(butterfly)
 
 	#nx.write_gexf(G, "test.gexf") #Write to file to be read into Grephi for visualization
 
