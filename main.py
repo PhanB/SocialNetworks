@@ -92,6 +92,7 @@ def largestClique(G, cliques):
 					if newSet not in newCliques:
 						newCliques.append(newSet)
 
+				# Simpler algorithm but poor performance
 				# # If the neighbors of node in question contains the clique, add it to the clique
 				# if set(findNeighbors(G, neighbor)).intersection(clique) == clique: # If intersection is the clique itself
 				# 		# Make sure not to add duplicates
