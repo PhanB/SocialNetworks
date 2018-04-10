@@ -50,6 +50,18 @@ def createGraphFromFile(filename):
 				G.add_edge(sender, recipient)
 
 	return G
+# Given graph and a node
+# Returns a list of neighboring nodes, in which neighbors are bidirectionally connected
+def findNeighbors(G, node):
+	neighbors = []
+	# For each successor of node
+	for successor in G.successors(node):
+		# Check if there is also an edge from successor to node
+		if G.has_edge(successor,node):
+			neighbors.append(successor)
+
+	return neighbors
+
 
 # Given the graph and a list of cliques (use sets because order does not matter in a clique)
 # Returns a list of the largest cliques	
@@ -66,6 +78,7 @@ def largestClique(G, cliques):
 				# Avoid redundancy
 				if neighbor in clique:
 					continue
+
 				# Check if this neighbor can be added to the clique
 				addToClique = True
 				# If all nodes in the clique have an edges to/from this neighbor
@@ -78,6 +91,13 @@ def largestClique(G, cliques):
 					newSet = clique.union([neighbor])
 					if newSet not in newCliques:
 						newCliques.append(newSet)
+
+				# # If the neighbors of node in question contains the clique, add it to the clique
+				# if set(findNeighbors(G, neighbor)).intersection(clique) == clique: # If intersection is the clique itself
+				# 		# Make sure not to add duplicates
+				# 		newSet = clique.union([neighbor])
+				# 		if newSet not in newCliques:
+				# 			newCliques.append(newSet)
 
 	# Base case: cannot increase size of any clique
 	if len(newCliques) < 1:
@@ -118,9 +138,6 @@ def findButterflies(G, three_cycles):
 					newBF =  set(cycle1).union(cycle2)
 					if newBF not in butterflies: # Don't create duplicates
 						butterflies.append(newBF)
-
-					#butterflies.append(newBF)
-
 			
 	return butterflies
 
@@ -137,6 +154,9 @@ def main():
 
 	print("Graph created with", G.number_of_nodes(), "nodes and", G.number_of_edges(), "edges.")
 
+	# Find the list of candidates for the leaker (woods)
+	candidates = findNeighbors(G, 'WOODS')
+	print('There are', len(candidates),'potential leakers:',candidates)
 	
 
 	# Create a list of the nodes
