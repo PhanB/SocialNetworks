@@ -142,6 +142,7 @@ def findButterflies(G, three_cycles):
 			
 	return butterflies
 
+# Given a graph (G) calculate the maximum out degree for any 
 
 def main():
 
@@ -180,7 +181,10 @@ def main():
 	print("Determining largest clique size...")
 	largest = largestClique(G, allNodes)
 	print('The largest clique size is',len(largest[0]),'with',len(largest),'cliques.')
-	
+
+    # Locating isolates - result was 0, so commented out.
+	# solo = nx.isolates(G)
+	# print('There are ',len(list(solo)), ' isolates in the network.')
 
 	# H = G.to_undirected(reciprocal=True)
 	# maxClique = nx.find_cliques(H)
