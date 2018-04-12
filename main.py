@@ -159,7 +159,16 @@ def main():
 	candidates = findNeighbors(G, 'WOODS')
 	print('There are', len(candidates),'potential leakers:',candidates)
 	
-
+    # Build candidate graph and display
+	H = nx.DiGraph()
+	H.add_node('WOODS')
+	H.add_nodes_from(candidates)
+	for node in candidates:
+		H.add_edge('WOODS', node)
+		H.add_edge(node, 'WOODS')
+	nx.draw(H, with_labels=True)
+	plt.show()
+	
 	# Create a list of the nodes
 	allNodes = []
 	for node in G.nodes:
