@@ -182,10 +182,7 @@ def main():
 	largest = largestClique(G, allNodes)
 	print('The largest clique size is',len(largest[0]),'with',len(largest),'cliques.')
 
-    # Locating isolates - result was 0, so commented out.
-	# solo = nx.isolates(G)
-	# print('There are ',len(list(solo)), ' isolates in the network.')
-
+	# Networkx code to determine maximum clique size - used to confirm largestClique function
 	# H = G.to_undirected(reciprocal=True)
 	# maxClique = nx.find_cliques(H)
 	# maxLength = 0
@@ -198,6 +195,10 @@ def main():
 	# 		count = count + 1
 	# print('Using find_clique the largest size is', maxLength, 'with', count, 'total cliques.')
 
+	# Locating isolates - result was 0, so commented out.
+	# solo = nx.isolates(G)
+	# print('There are ',len(list(solo)), ' isolates in the network.')
+	
 	# Find the butterflies in the graph
 	butterflies = findButterflies(G, largest)
 	print("There are", len(butterflies), "butterflies in the graph.")
@@ -207,7 +208,28 @@ def main():
 
 	#nx.write_gexf(G, "test.gexf") #Write to file to be read into Grephi for visualization
 
+    # Degrees of Kevin Bacon
+	degreeList = nx.degree_centrality(G)
+	maxDegree = 0
+	KBacon = []
+	count = 0
+	for dnode in degreeList:
+		if degreeList[dnode] > maxDegree:
+			count = 1
+			maxDegree = degreeList[dnode]
+			kingBacon = dnode
+			if len(KBacon) > 0:
+				del KBacon[:]
+				KBacon.append(dnode)
+			else:
+				KBacon.append(dnode)
+		elif degreeList[dnode] == maxDegree:
+			count = count + 1
+			KBacon.append(dnode)
+			degree = len(nx.single_source_shortest_path(G,dnode,2))
 
+	print('The Kevin Bacon of our graph is ', KBacon, ' with a maximum degree of ', maxDegree)
+	print('There are ', count, ' Kevin Bacons in our graph.')
 
 if __name__ == "__main__":
 	main()
