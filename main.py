@@ -212,6 +212,7 @@ def main():
 	degreeList = nx.degree_centrality(G)
 	maxDegree = 0
 	KBacon = []
+	paths = {}
 	count = 0
 	for dnode in degreeList:
 		if degreeList[dnode] > maxDegree:
@@ -226,10 +227,17 @@ def main():
 		elif degreeList[dnode] == maxDegree:
 			count = count + 1
 			KBacon.append(dnode)
-			degree = len(nx.single_source_shortest_path(G,dnode,2))
+		paths[dnode] = len(nx.single_source_shortest_path(G,dnode,2))
 
+	total = 0
+	count = 0
+	for k,v in paths.items():
+		total = total + v
+		count = count + 1
+	avgconnect = total / (count+1)
 	print('The Kevin Bacon of our graph is ', KBacon, ' with a maximum degree of ', maxDegree)
-	print('There are ', count, ' Kevin Bacons in our graph.')
+	print('There are ', len(KBacon), ' Kevin Bacons in our graph.')
+	print('Each node can reach ', avgconnect, ' nodes by depth 2 on average.')
 
 if __name__ == "__main__":
 	main()
