@@ -131,6 +131,10 @@ def findButterflies(G, three_cycles):
 					successors = set(G.successors(cycle1_node))
 					c2 = set(cycle2)
 
+					# Ignore any self pointing edges (butterfly can have self pointing nodes)
+					predecessors-= set([cycle1_node])
+					successors-= set([cycle1_node])
+
 					deg_in = len(predecessors.intersection(c2)) # Using set intersection, find how many edges are there from nodes in cycle 2 to cycle1_node
 					deg_out = len(successors.intersection(c2)) # Using set intersection, find how many edges from cycle1_node to nodes in cycle 2
 					numConnections.append(deg_in + deg_out) # Total edges connecting cycle1_node and cycle2
