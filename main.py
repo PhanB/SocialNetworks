@@ -146,7 +146,39 @@ def findButterflies(G, three_cycles):
 			
 	return butterflies
 
-# Given a graph (G) calculate the maximum out degree for any 
+# Degrees of Kevin Bacon problem as a series of connectivity calculations
+# Calculates degree centrality, locates the individuals with the highest levels of degree centrality
+# Calculates the number of paths to depth 2 using each node as a source, and then calculates the average # paths
+def defineConnectivity(G):
+	degreeList = nx.degree_centrality(G)
+	maxDegree = 0
+	KBacon = []
+	paths = {}
+	count = 0
+	for dnode in degreeList:
+		if degreeList[dnode] > maxDegree:
+			count = 1
+			maxDegree = degreeList[dnode]
+			kingBacon = dnode
+			if len(KBacon) > 0:
+				del KBacon[:]
+				KBacon.append(dnode)
+			else:
+				KBacon.append(dnode)
+		elif degreeList[dnode] == maxDegree:
+			count = count + 1
+			KBacon.append(dnode)
+		paths[dnode] = len(nx.single_source_shortest_path(G,dnode,2))
+
+	total = 0
+	count = 0
+	for k,v in paths.items():
+		total = total + v
+		count = count + 1
+	avgconnect = total / (count+1)
+	print('The Kevin Bacon of our graph is ', KBacon, ' with a maximum degree of ', maxDegree)
+	print('There are ', len(KBacon), ' Kevin Bacons in our graph.')
+	print('Each node can reach ', avgconnect, ' nodes by depth 2 on average.')
 
 def main():
 
@@ -209,39 +241,11 @@ def main():
 	#print("The butterflies are:")
 	#for butterfly in butterflies:
 	#	print(butterfly)
-
+	
+	defineConnectivity(G)
+	
 	#nx.write_gexf(G, "test.gexf") #Write to file to be read into Grephi for visualization
-
-    # Degrees of Kevin Bacon
-	degreeList = nx.degree_centrality(G)
-	maxDegree = 0
-	KBacon = []
-	paths = {}
-	count = 0
-	for dnode in degreeList:
-		if degreeList[dnode] > maxDegree:
-			count = 1
-			maxDegree = degreeList[dnode]
-			kingBacon = dnode
-			if len(KBacon) > 0:
-				del KBacon[:]
-				KBacon.append(dnode)
-			else:
-				KBacon.append(dnode)
-		elif degreeList[dnode] == maxDegree:
-			count = count + 1
-			KBacon.append(dnode)
-		paths[dnode] = len(nx.single_source_shortest_path(G,dnode,2))
-
-	total = 0
-	count = 0
-	for k,v in paths.items():
-		total = total + v
-		count = count + 1
-	avgconnect = total / (count+1)
-	print('The Kevin Bacon of our graph is ', KBacon, ' with a maximum degree of ', maxDegree)
-	print('There are ', len(KBacon), ' Kevin Bacons in our graph.')
-	print('Each node can reach ', avgconnect, ' nodes by depth 2 on average.')
+	
 
 if __name__ == "__main__":
 	main()
