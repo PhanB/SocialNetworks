@@ -85,8 +85,8 @@ def findButterflies(G, three_cycles):
                     c2 = set(cycle2)
                     
                     # Ignore any self pointing edges (butterfly can have self pointing nodes)
-					predecessors-= set([cycle1_node])
-					successors-= set([cycle1_node])
+		    predecessors-= set([cycle1_node])
+		    successors-= set([cycle1_node])
 
                     # Find #edges from nodes in cycle2 to cycle1_node-intersect
                     deg_in = len(predecessors.intersection(c2))
