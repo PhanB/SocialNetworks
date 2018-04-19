@@ -37,16 +37,13 @@ def createGraphFromFile(filename):
 
 			# Create a directed edge from sender to each recipient
 			if sender not in G:
-				#print("Adding sender:", sender)
 				G.add_node(sender)
 
 			for recipient in recipients:
 
 				if recipient not in G:
-					#print("Adding recipient:", recipient)
 					G.add_node(recipient)
 
-				#print("Adding edge:", sender, recipient)
 				G.add_edge(sender, recipient)
 
 	return G
@@ -66,9 +63,6 @@ def findNeighbors(G, node):
 # Given the graph and a list of cliques (use sets because order does not matter in a clique)
 # Returns a list of the largest cliques	
 def largestClique(G, cliques):
-
-	#print('Clique size:', len(cliques[0]), 'Number of cliques:', len(cliques))
-
 	newCliques = [] # Will hold cliques of size + 1
 
 	# See if any of the nodes in a clique has a neighbor that can be added to increase clique size by 1
@@ -91,14 +85,6 @@ def largestClique(G, cliques):
 					newSet = clique.union([neighbor])
 					if newSet not in newCliques:
 						newCliques.append(newSet)
-
-				# Simpler algorithm but poor performance
-				# # If the neighbors of node in question contains the clique, add it to the clique
-				# if set(findNeighbors(G, neighbor)).intersection(clique) == clique: # If intersection is the clique itself
-				# 		# Make sure not to add duplicates
-				# 		newSet = clique.union([neighbor])
-				# 		if newSet not in newCliques:
-				# 			newCliques.append(newSet)
 
 	# Base case: cannot increase size of any clique
 	if len(newCliques) < 1:
@@ -217,34 +203,13 @@ def main():
 	print("Determining largest clique size...")
 	largest = largestClique(G, allNodes)
 	print('The largest clique size is',len(largest[0]),'with',len(largest),'cliques.')
-
-	# Networkx code to determine maximum clique size - used to confirm largestClique function
-	# H = G.to_undirected(reciprocal=True)
-	# maxClique = nx.find_cliques(H)
-	# maxLength = 0
-	# count = 0
-	# for clique in maxClique:
-	# 	if len(clique) > maxLength:
-	# 		maxLength = len(clique)
-	# 		count = 0
-	# 	if len(clique) == maxLength:
-	# 		count = count + 1
-	# print('Using find_clique the largest size is', maxLength, 'with', count, 'total cliques.')
-
-	# Locating isolates - result was 0, so commented out.
-	# solo = nx.isolates(G)
-	# print('There are ',len(list(solo)), ' isolates in the network.')
 	
 	# Find the butterflies in the graph
 	butterflies = findButterflies(G, largest)
 	print("There are", len(butterflies), "butterflies in the graph.")
-	#print("The butterflies are:")
-	#for butterfly in butterflies:
-	#	print(butterfly)
-	
+
 	defineConnectivity(G)
 	
-	#nx.write_gexf(G, "test.gexf") #Write to file to be read into Grephi for visualization
 	
 
 if __name__ == "__main__":
