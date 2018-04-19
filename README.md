@@ -1,8 +1,8 @@
 Large databases, such as those used in social media networks, are most readily modeled as graphs, where the individuals and institutions are nodes and the connections between them are the edges. In this project, we used a simple text representation of a company-wide email network to generate a directed graph, and then to collect information on the groups within the company. 
 
-##Trade Secrets
+## Trade Secrets
 
-#####Q1. The HRS of BN has a contract with the security company Kandella which established that the user woods recently sold a trade secret of HN (design of their new luxurious ladies handbag) on dark Web. It has further been established that the document containing the secret was provided to woods by someone within the company and probably some of negotiations leading to this security incident were conducted by email in December 2017. Find the list of candidates for the leaker (i.e. person who may have signalled to woods that they will provide secret.
+##### Q1. The HRS of BN has a contract with the security company Kandella which established that the user woods recently sold a trade secret of HN (design of their new luxurious ladies handbag) on dark Web. It has further been established that the document containing the secret was provided to woods by someone within the company and probably some of negotiations leading to this security incident were conducted by email in December 2017. Find the list of candidates for the leaker (i.e. person who may have signalled to woods that they will provide secret.
 
 In the information from Kandella, they indicated that Woods received the design from someone else within the company and that most likely the parties negotiated via email during the time of the study. Using the assumption that a negotiation would involve two-way communication, we searched for all of Woods neighbors that also had an edge to Woods. Checking in this fashion gave us 10 potential conspirators: Ayers, Banks, Branch, Howe, Hudson, McDaniel, Moreno, Morton, Richardson, West
 ```
@@ -17,9 +17,9 @@ def findNeighbors(G, node):
     return neighbors
 ```
 
-##Clique Size
+## Clique Size
 
-#####Q2. List all cliques of largest size (remember that in a directed graph a clique of size n involves n(n − 1) directed edges, not n(n−1) 2 edges, as in the undirected graph) . You will need to design an algorithm that computes maximal cliques. Hint: if C clique in our directed graph G then for every C 0 ⊆ C, the graph G restricted to C 0 is also a clique. Use this property to design a recursive algorithm for our task. 
+##### Q2. List all cliques of largest size (remember that in a directed graph a clique of size n involves n(n − 1) directed edges, not n(n−1) 2 edges, as in the undirected graph) . You will need to design an algorithm that computes maximal cliques. Hint: if C clique in our directed graph G then for every C 0 ⊆ C, the graph G restricted to C 0 is also a clique. Use this property to design a recursive algorithm for our task. 
 
 To determine maximum clique size, we used two different methods. In the first method, we built a function that started at a single node and examined each neighbor for inclusion in the clique. If the neighbor had edges to each member of the clique and was not already a member of the clique, it was added to the clique.
 ``` 
@@ -58,9 +58,9 @@ def largestClique(G, cliques):
 To confirm the algorithm above, we then used the Networkx function to_undirected to convert our directed graph to an undirected graph and then the function find_cliques to locate the largest clique for each node. We then iterated through the list to determine both the largest clique size and the number of cliques found of that size. This confirmed our results of 114 cliques of a maximum size of three.
 
 
-##Locating Butterflies
+## Locating Butterflies
 
-#####Q3. A butterfly in a digraph G is a subgraph B with five nodes {A, B, C, D, E} having two cliques of size three {A,B,C} and {C,D,E} that are connected through common node C and have no additional edges. Check if the BN network contains a butterfly. If so, compute one.
+##### Q3. A butterfly in a digraph G is a subgraph B with five nodes {A, B, C, D, E} having two cliques of size three {A,B,C} and {C,D,E} that are connected through common node C and have no additional edges. Check if the BN network contains a butterfly. If so, compute one.
 We used the list we generated in our clique function to determine if a pair of cliques was a butterfly. A butterfly is two cliques of size 3 that share a single point in common with no additional edges from the other edges. Using the function below, we found 30 butterflies.
 def findButterflies(G, three_cycles):
 
@@ -98,9 +98,9 @@ def findButterflies(G, three_cycles):
                         butterflies.append(newBF)
 
     return butterflies
-##Six Degrees of Kevin Bacon - Interconnectivity in the Graph
+## Six Degrees of Kevin Bacon - Interconnectivity in the Graph
 
-####Q4. The company claims that they are a closely knit group with a strong corporate culture, where everyone works equally with everyone else. Does the graph reflect this?
+#### Q4. The company claims that they are a closely knit group with a strong corporate culture, where everyone works equally with everyone else. Does the graph reflect this?
 Six degrees of separation is a graph concept in popular culture that each person is at most 6 steps from every other person in the world. In movie culture, this was refined to Six Degrees of Kevin Bacon, due to his large body of work in movies and television. There the idea is that no actor, director or producer is more than 6 steps from Kevin Bacon. 
 In our graph, we used two measures of connectedness to simulate the Kevin Bacon concept. The first was to calculate the degree centrality with Networkx. The degree centrality is a calculation of the number of nodes an individual node is connected to, normalized by the maximum number of nodes it could be connected to. This number is normally under one, but in a digraph with self loops that number can sometimes exceed one. 
 nconnectedn-1
