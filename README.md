@@ -100,7 +100,7 @@ def findButterflies(G, three_cycles):
     return butterflies
 ## Six Degrees of Kevin Bacon - Interconnectivity in the Graph
 
-#### Q4. The company claims that they are a closely knit group with a strong corporate culture, where everyone works equally with everyone else. Does the graph reflect this?
+##### Q4. The company claims that they are a closely knit group with a strong corporate culture, where everyone works equally with everyone else. Does the graph reflect this?
 Six degrees of separation is a graph concept in popular culture that each person is at most 6 steps from every other person in the world. In movie culture, this was refined to Six Degrees of Kevin Bacon, due to his large body of work in movies and television. There the idea is that no actor, director or producer is more than 6 steps from Kevin Bacon. 
 In our graph, we used two measures of connectedness to simulate the Kevin Bacon concept. The first was to calculate the degree centrality with Networkx. The degree centrality is a calculation of the number of nodes an individual node is connected to, normalized by the maximum number of nodes it could be connected to. This number is normally under one, but in a digraph with self loops that number can sometimes exceed one. 
 nconnectedn-1
