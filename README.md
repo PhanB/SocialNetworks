@@ -2,9 +2,9 @@ Large databases, such as those used in social media networks, are most readily m
 
 ## Trade Secrets
 
-##### Q1. The HRS of BN has a contract with the security company Kandella which established that the user woods recently sold a trade secret of HN (design of their new luxurious ladies handbag) on dark Web. It has further been established that the document containing the secret was provided to woods by someone within the company and probably some of negotiations leading to this security incident were conducted by email in December 2017. Find the list of candidates for the leaker (i.e. person who may have signalled to woods that they will provide secret.
+##### Q1. The HRS of BN has a contract with the security company Kandella which established that the user woods recently sold a trade secret of HN (design of their new luxurious ladies handbag) on dark Web. It has further been established that the document containing the secret was provided to woods by someone within the company and probably some of negotiations leading to this security incident were conducted by email in December 2017. Find the list of candidates for the leaker (i.e. person who may have signalled to woods that they will provide secret).
 
-In the information from Kandella, they indicated that Woods received the design from someone else within the company and that most likely the parties negotiated via email during the time of the study. Using the assumption that a negotiation would involve two-way communication, we searched for all of Woods neighbors that also had an edge to Woods. Checking in this fashion gave us 10 potential conspirators: Ayers, Banks, Branch, Howe, Hudson, McDaniel, Moreno, Morton, Richardson, West
+In the information from Kandella, they indicated that Woods received the design from someone else within the company and that most likely the parties negotiated via email during the time of the study. Using the assumption that a negotiation would involve two-way communication, we searched for all of Woods neighbors that also had an edge to Woods. Checking in this fashion gave us 10 potential conspirators: Ayers, Banks, Branch, Howe, Hudson, McDaniel, Moreno, Morton, Richardson, West.
 ```
 def findNeighbors(G, node):
     neighbors = []
@@ -61,7 +61,9 @@ To confirm the algorithm above, we then used the Networkx function to_undirected
 ## Locating Butterflies
 
 ##### Q3. A butterfly in a digraph G is a subgraph B with five nodes {A, B, C, D, E} having two cliques of size three {A,B,C} and {C,D,E} that are connected through common node C and have no additional edges. Check if the BN network contains a butterfly. If so, compute one.
-We used the list we generated in our clique function to determine if a pair of cliques was a butterfly. A butterfly is two cliques of size 3 that share a single point in common with no additional edges from the other edges. Using the function below, we found 30 butterflies.
+We used the list we generated in our clique function to determine if a pair of cliques was a butterfly. A butterfly is two cliques of size 3 that share a single point in common with no additional edges from the other edges. Using the function below, we found 30 butterflies. One of the computed butterflies is {Herbert, Wise, Mata, Joseph and Ayala}, in which the cliques are {Herbert, Wise, Mata} and {Herbert, Joseph, Ayala}.
+
+```
 def findButterflies(G, three_cycles):
 
     butterflies = []
@@ -98,6 +100,8 @@ def findButterflies(G, three_cycles):
                         butterflies.append(newBF)
 
     return butterflies
+```
+    
 ## Six Degrees of Kevin Bacon - Interconnectivity in the Graph
 
 ##### Q4. The company claims that they are a closely knit group with a strong corporate culture, where everyone works equally with everyone else. Does the graph reflect this?
